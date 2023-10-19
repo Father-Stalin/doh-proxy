@@ -26,3 +26,6 @@ _testmain.go
 *.prof
 
 release
+v5/cmd/.DS_Store
+v5/.DS_Store
+.DS_Store
