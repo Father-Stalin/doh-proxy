@@ -5,13 +5,13 @@ RUN mkdir -p /go/src/github.com/tinkernels/doh-proxy
 COPY . /go/src/github.com/tinkernels/doh-proxy
 
 WORKDIR /go/src/github.com/tinkernels/doh-proxy/v5/
-RUN make linux-amd64
+RUN make linux-arm64
 
 FROM alpine:3.12.0 as final
 EXPOSE 53 53/udp
 RUN apk --no-cache add ca-certificates libcap && update-ca-certificates
 
-COPY --from=builder /go/src/github.com/tinkernels/doh-proxy/v5/release/doh-proxy_linux-amd64 /doh
+COPY --from=builder /go/src/github.com/tinkernels/doh-proxy/v5/release/doh-proxy_linux-arm64 /doh
 
 #https://jessicadeen.com/how-to-solve-the-listen-tcp-80-bind-permission-denied-error-in-docker/
 RUN setcap 'cap_net_bind_service=+ep' /doh

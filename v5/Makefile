@@ -8,10 +8,10 @@ ifeq ($(RACE),1)
     CGO_ENABLED=1
 endif
 
-.PHONY: release test linux-amd64 linux-386 linux-arm macos-amd64 windows-amd64 windows-386
+.PHONY: release test linux-amd64 linux-386 linux-arm macos-amd64 windows-amd64 windows-386 linux-arm64
 .DEFAULT_GOAL := test
 
-release: linux-amd64 linux-386 linux-arm macos-amd64 windows-amd64 windows-386
+release: linux-amd64 linux-386 linux-arm macos-amd64 windows-amd64 windows-386 linux-arm64
 
 linux-amd64:
 	mkdir -p release
@@ -25,6 +25,11 @@ linux-arm:
 	mkdir -p release
 	GOOS=linux GOARCH=arm CGO_ENABLED=${CGO_ENABLED} go build  $(build_flags) -o release/doh-proxy_linux-arm $(resolver_package)
 	GOOS=linux GOARCH=arm CGO_ENABLED=${CGO_ENABLED} go build  $(build_flags) -o release/doh-stub_linux-arm $(stub_package)
+linux-arm64:
+	mkdir -p release
+	GOOS=linux GOARCH=arm64 CGO_ENABLED=${CGO_ENABLED} go build  $(build_flags) -o release/doh-proxy_linux-arm64 $(resolver_package)
+	GOOS=linux GOARCH=arm64 CGO_ENABLED=${CGO_ENABLED} go build  $(build_flags) -o release/doh-stub_linux-arm64 $(stub_package)
+
 macos-amd64:
 	mkdir -p release
 	GOOS=darwin GOARCH=amd64 CGO_ENABLED=${CGO_ENABLED} go build $(build_flags) -o release/doh-proxy_macos-amd64 $(resolver_package)
